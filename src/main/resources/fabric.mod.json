@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "TEMPLATE_MOD_ID",
+	"version": "${version}",
+	"name": "TEMPLATE_MOD_NAME",
+	"description": "A Fabric mod",
+	"authors": ["TEMPLATE_AUTHOR"],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/TEMPLATE_MOD_ID/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["TEMPLATE_PACKAGE.TEMPLATE_MOD_CLASS"]
+	},
+	"mixins": ["TEMPLATE_MOD_ID.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~TEMPLATE_MC_VERSION",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
