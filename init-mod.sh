@@ -115,7 +115,7 @@ done
 
 # Detecting available versions
 print_info "Detecting recent Minecraft versions..."
-DEFAULT_MC_VERSION="1.21.4"
+DEFAULT_MC_VERSION="1.21.11"
 while true; do
     read -p "$(echo -e ${BLUE}Minecraft version${NC} \(default: $DEFAULT_MC_VERSION\): )" MC_VERSION
     MC_VERSION=${MC_VERSION:-$DEFAULT_MC_VERSION}
@@ -152,9 +152,9 @@ echo ""
 read -p "$(echo -e ${YELLOW}Advanced configuration?${NC} \(y/n, default: n\): )" ADVANCED
 ADVANCED=${ADVANCED:-n}
 
-FABRIC_VERSION="0.110.5+1.21.4"
-LOADER_VERSION="0.16.9"
-YARN_MAPPINGS="1.21.4+build.1"
+FABRIC_VERSION="0.139.5+1.21.11"
+LOADER_VERSION="0.18.3"
+YARN_MAPPINGS="1.21.11+build.1"
 
 if [ "$ADVANCED" = "y" ]; then
     read -p "$(echo -e ${BLUE}Fabric API version${NC} \(default: $FABRIC_VERSION\): )" CUSTOM_FABRIC
@@ -318,23 +318,29 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-
-    // Example item
-    // public static final Item EXAMPLE_ITEM = registerItem("example_item",
-    //     new Item(new Item.Settings()));
-
-    private static Item registerItem(String name, Item item) {
-        return Registry.register(Registries.ITEM,
-            Identifier.of(${MOD_CLASS}.MOD_ID, name), item);
-    }
-
+    
+    // Example item - uncomment to use
+    // public static Item EXAMPLE_ITEM;
+    
     public static void registerModItems() {
         ${MOD_CLASS}.LOGGER.info("Registering items for {}", ${MOD_CLASS}.MOD_ID);
-
-        // Add your items to the creative tab
+        
+        // Example of how to register an item (Minecraft 1.21+ API)
+        // EXAMPLE_ITEM = Registry.register(
+        //     Registries.ITEM,
+        //     Identifier.of(${MOD_CLASS}.MOD_ID, "example_item"),
+        //     new Item(new Item.Settings()
+        //         .registryKey(RegistryKey.of(RegistryKeys.ITEM, 
+        //             Identifier.of(${MOD_CLASS}.MOD_ID, "example_item")))
+        //     )
+        // );
+        
+        // Add to creative tab
         // ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS)
         //     .register(entries -> entries.add(EXAMPLE_ITEM));
     }
@@ -355,7 +361,7 @@ cat > deploy.sh << 'DEPLOY_EOF'
 #!/bin/bash
 
 echo "🔨 Building mod..."
-./gradlew build
+./gradlew clean build
 
 if [ $? -eq 0 ]; then
     echo "✅ Build successful!"
@@ -369,9 +375,13 @@ echo "    MINECRAFT_MODS=\"$MODS_FOLDER\"" >> deploy.sh
 cat >> deploy.sh << 'DEPLOY_EOF'
 
     if [ -f "$JAR_FILE" ]; then
-        # Create mods folder if it doesn't exist
-        mkdir -p "$MINECRAFT_MODS"
-        cp -f "$JAR_FILE" "$MINECRAFT_MODS/"
+        MOD_NAME=$(basename "$JAR_FILE" | sed 's/-[0-9].*//')
+        
+        # Remove old versions
+        rm -f "$MINECRAFT_MODS"/${MOD_NAME}-*.jar 2>/dev/null
+        
+        # Copy new version (use /bin/cp to avoid alias)
+        /bin/cp "$JAR_FILE" "$MINECRAFT_MODS/"
         echo "✅ Mod copied to $MINECRAFT_MODS"
         echo "📦 File: $(basename $JAR_FILE)"
         echo ""
@@ -385,7 +395,8 @@ else
 fi
 DEPLOY_EOF
 
-chmod +x deploy.sh
+print_info "Setting executable permissions..."
+chmod +x gradlew gradlew.bat deploy.sh 2>/dev/null || true
 
 # Git configuration
 print_info "Configuring Git..."
