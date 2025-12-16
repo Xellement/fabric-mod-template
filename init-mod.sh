@@ -88,7 +88,7 @@ while true; do
 done
 
 while true; do
-    read -p "$(echo -e ${BLUE}Mod ID${NC} (ex: supermod): )" MOD_ID
+    read -p "$(echo -e ${BLUE}Mod ID${NC} \(ex: supermod\): )" MOD_ID
     MOD_ID=$(echo "$MOD_ID" | tr '[:upper:]' '[:lower:]')
     if validate_mod_id "$MOD_ID"; then
         break
@@ -106,7 +106,7 @@ done
 # Package suggestion based on author and mod ID
 SUGGESTED_PACKAGE="com.$(echo $AUTHOR | tr '[:upper:]' '[:lower:]' | tr -d ' ').${MOD_ID}"
 while true; do
-    read -p "$(echo -e ${BLUE}Package${NC} (default: $SUGGESTED_PACKAGE): )" PACKAGE
+    read -p "$(echo -e ${BLUE}Package${NC} \(default: $SUGGESTED_PACKAGE\): )" PACKAGE
     PACKAGE=${PACKAGE:-$SUGGESTED_PACKAGE}
     if validate_package "$PACKAGE"; then
         break
@@ -117,7 +117,7 @@ done
 print_info "Detecting recent Minecraft versions..."
 DEFAULT_MC_VERSION="1.21.4"
 while true; do
-    read -p "$(echo -e ${BLUE}Minecraft version${NC} (default: $DEFAULT_MC_VERSION): )" MC_VERSION
+    read -p "$(echo -e ${BLUE}Minecraft version${NC} \(default: $DEFAULT_MC_VERSION\): )" MC_VERSION
     MC_VERSION=${MC_VERSION:-$DEFAULT_MC_VERSION}
     if validate_version "$MC_VERSION"; then
         break
@@ -144,12 +144,12 @@ else
     DEFAULT_MODS_FOLDER="$HOME/.minecraft/mods"
 fi
 
-read -p "$(echo -e ${BLUE}Minecraft mods folder${NC} (default: $DEFAULT_MODS_FOLDER): )" MODS_FOLDER
+read -p "$(echo -e ${BLUE}Minecraft mods folder${NC} \(default: $DEFAULT_MODS_FOLDER\): )" MODS_FOLDER
 MODS_FOLDER=${MODS_FOLDER:-$DEFAULT_MODS_FOLDER}
 
 # Advanced options
 echo ""
-read -p "$(echo -e ${YELLOW}Advanced configuration?${NC} (y/n, default: n): )" ADVANCED
+read -p "$(echo -e ${YELLOW}Advanced configuration?${NC} \(y/n, default: n\): )" ADVANCED
 ADVANCED=${ADVANCED:-n}
 
 FABRIC_VERSION="0.110.5+1.21.4"
@@ -157,13 +157,13 @@ LOADER_VERSION="0.16.9"
 YARN_MAPPINGS="1.21.4+build.1"
 
 if [ "$ADVANCED" = "y" ]; then
-    read -p "$(echo -e ${BLUE}Fabric API version${NC} (default: $FABRIC_VERSION): )" CUSTOM_FABRIC
+    read -p "$(echo -e ${BLUE}Fabric API version${NC} \(default: $FABRIC_VERSION\): )" CUSTOM_FABRIC
     FABRIC_VERSION=${CUSTOM_FABRIC:-$FABRIC_VERSION}
 
-    read -p "$(echo -e ${BLUE}Fabric Loader version${NC} (default: $LOADER_VERSION): )" CUSTOM_LOADER
+    read -p "$(echo -e ${BLUE}Fabric Loader version${NC} \(default: $LOADER_VERSION\): )" CUSTOM_LOADER
     LOADER_VERSION=${CUSTOM_LOADER:-$LOADER_VERSION}
 
-    read -p "$(echo -e ${BLUE}Yarn mappings${NC} (default: $YARN_MAPPINGS): )" CUSTOM_YARN
+    read -p "$(echo -e ${BLUE}Yarn mappings${NC} \(default: $YARN_MAPPINGS\): )" CUSTOM_YARN
     YARN_MAPPINGS=${CUSTOM_YARN:-$YARN_MAPPINGS}
 fi
 
@@ -188,7 +188,7 @@ echo -e "  ${BLUE}Fabric API:${NC}      $FABRIC_VERSION"
 echo -e "  ${BLUE}Loader:${NC}          $LOADER_VERSION"
 echo -e "  ${BLUE}Mods folder:${NC}     $MODS_FOLDER"
 echo ""
-read -p "$(echo -e ${YELLOW}Confirm and create project?${NC} (y/n): )" CONFIRM
+read -p "$(echo -e ${YELLOW}Confirm and create project?${NC} \(y/n\): )" CONFIRM
 
 if [ "$CONFIRM" != "y" ]; then
     print_error "Cancelled by user"
