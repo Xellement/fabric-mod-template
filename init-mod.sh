@@ -8,10 +8,10 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Function to display with color
-print_success() { echo -e "${GREEN}✓${NC} $1"; }
-print_error() { echo -e "${RED}✗${NC} $1"; }
-print_info() { echo -e "${BLUE}ℹ${NC} $1"; }
-print_warning() { echo -e "${YELLOW}⚠${NC} $1"; }
+print_success() { echo -e "${GREEN}✅${NC}  $1"; }
+print_error() { echo -e "${RED}❌${NC}  $1"; }
+print_info() { echo -e "${BLUE}ℹ️${NC}  $1"; }
+print_warning() { echo -e "${YELLOW}⚠️${NC}  $1"; }
 
 # Validation function
 validate_mod_id() {
@@ -403,14 +403,14 @@ rm -f init-mod.sh
 
 echo ""
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║   ✓ Project created successfully!     ║${NC}"
+echo -e "${GREEN}║   ✓ Project created successfully!      ║${NC}"
 echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
 echo ""
 print_info "Next steps:"
 echo ""
-echo "  1. ${BLUE}./gradlew build${NC}          - Build your mod"
-echo "  2. ${BLUE}./deploy.sh${NC}              - Deploy to Minecraft"
-echo "  3. ${BLUE}Launch Minecraft${NC}         - Test your mod"
+echo -e "  1. ${BLUE}./gradlew build${NC}          - Build your mod"
+echo -e "  2. ${BLUE}./deploy.sh${NC}              - Deploy to Minecraft"
+echo -e "  3. ${BLUE}Launch Minecraft${NC}         - Test your mod"
 echo ""
 print_info "Created structure:"
 echo "  📁 src/main/java/$PACKAGE_PATH/"
